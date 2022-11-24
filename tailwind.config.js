@@ -10,9 +10,9 @@ module.exports = {
 
           "primary": "#7300ef",
 
-          "secondary": "#dfb1ef",
+          "secondary": "#ef4161",
 
-          "accent": "#84e8e4",
+          "accent": "#10b880",
 
           "neutral": "#161A1D",
 
@@ -20,11 +20,11 @@ module.exports = {
 
           "info": "#5075D3",
 
-          "success": "#1B7968",
+          "success": "#047857",
 
           "warning": "#F4B61A",
 
-          "error": "#E97C9F",
+          "error": "#bd123d",
         },
       },
     ],
