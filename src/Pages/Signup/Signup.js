@@ -1,8 +1,10 @@
+import { GoogleAuthProvider } from "firebase/auth";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from 'react-hot-toast';
 import { FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { AuthContext } from '../../Context/Authprovider';
+import { AuthContext } from "../../Context/Authprovider";
 import image from "../../Resourses/signup2.png";
 
 const Signup = () => {
@@ -11,8 +13,10 @@ const Signup = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-    const {  signUpUser } = useContext(AuthContext);
+    const {  signUpUser, updateUser, providerLogin } = useContext(AuthContext);
+    const googleProvider = new GoogleAuthProvider();
   const [signUpError, setSignUPError] = useState("");
+  
   const handleSignUp = (data) => {
     console.log(data);
     setSignUPError("");
@@ -20,19 +24,28 @@ const Signup = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
-        // toast("User Created Successfully.");
+        toast.success("User Created Successfully.");
         const userInfo = {
           displayName: data.name,
         };
-        // updateUser(userInfo)
-        //   .then(() => {})
-        //   .catch((err) => console.log(err));
+        updateUser(userInfo)
+          .then(() => {})
+          .catch((err) => console.error(err));
       })
       .catch((error) => {
         console.log(error);
         setSignUPError(error.message);
       });
   };
+
+  const handleGoogleSignIn = () =>{
+    providerLogin(googleProvider)
+    .then(result =>{
+        const user = result.user;
+        console.log(user);
+    })
+    .catch(error=> console.error(error))
+        }
   return (
     <div className="hero w-full bg-gradient-to-r from-slate-300 via-stone-300 to-blue-400">
       <div className="hero-content grid gap-20 md:grid-cols-2 flex-col lg:flex-row">
@@ -128,7 +141,7 @@ const Signup = () => {
               <div className="flex-1 h-px sm:w-16 bg-gray-700"></div>
             </div>
             <button
-              //  onClick={handleGoogleSignIn}
+               onClick={handleGoogleSignIn}
               aria-label="Login with Google"
               type="button"
               className="flex items-center justify-center btn btn-outline w-full p-4 transition duration-200 bg-white text-black hover:bg-error focus:shadow-outline focus:outline-none rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:shadow-outline h-12"

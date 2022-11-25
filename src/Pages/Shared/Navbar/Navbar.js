@@ -72,6 +72,17 @@ const Navbar = () => {
                 </Link>
               </li>
              {user?.uid ? 
+             <>
+               <li>
+                <Link
+                  to="/dashboard"
+                  aria-label="Dashboard"
+                  title="Dashboard"
+                  className="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
+                >
+                  Dashboard
+                </Link>
+              </li>
               <li>
               <button
     onClick={handleLogOut}
@@ -80,7 +91,7 @@ const Navbar = () => {
                 Log Out
               </button>
             </li>
-             
+             </>
              :
              <>
               <li>
