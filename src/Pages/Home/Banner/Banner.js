@@ -64,7 +64,7 @@ const Banner = () => {
           <div className="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
             <Link
               to="/"
-              className="px-8 py-3 text-lg font-semibold rounded bg-gradient-to-r from-purple-500 to-pink-500 hover:btn-error"
+              className="px-8 py-3 text-lg font-semibold rounded btn-secondary text-black hover:btn-error"
             >
               Discover Now
             </Link>
