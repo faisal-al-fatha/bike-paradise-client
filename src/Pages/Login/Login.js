@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
-// import { AuthContext } from "../../contexts/AuthProvider";
+import { AuthContext } from "../../Context/Authprovider";
 import image from "../../Resourses/SignUp-removebg-preview.png";
 const Login = () => {
     const {
@@ -10,27 +10,20 @@ const Login = () => {
         handleSubmit,
         formState: { errors },
       } = useForm();
-      //   const { createUser, updateUser } = useContext(AuthContext);
-      const [signUpError, setSignUPError] = useState("");
-      const handleSignUp = (data) => {
+        const { logIn} = useContext(AuthContext);
+      const [loginError, setLoginError] = useState("");
+      const handleLogin = (data) => {
         console.log(data);
-        setSignUPError("");
-        // createUser(data.email, data.password)
-        //   .then((result) => {
-        //     const user = result.user;
-        //     console.log(user);
-        //     toast("User Created Successfully.");
-        //     const userInfo = {
-        //       displayName: data.name,
-        //     };
-        //     updateUser(userInfo)
-        //       .then(() => {})
-        //       .catch((err) => console.log(err));
-        //   })
-        //   .catch((error) => {
-        //     console.log(error);
-        //     setSignUPError(error.message);
-        //   });
+        setLoginError("");
+        logIn(data.email, data.password)
+        .then(result=>{
+            const user = result.user;
+            console.log(user);
+        })
+        .catch(error => {
+            console.error(error)
+            setLoginError(error.message);
+        })
       };
     return (
         <div className="hero w-full min-h-screen bg-gradient-to-r from-slate-300 via-stone-300 to-blue-400">
@@ -41,7 +34,7 @@ const Login = () => {
         <div className="w-full max-w-xl xl:px-8 mx-auto my-5 flex justify-center items-center">
           <div className="w-96 p-7">
             <h2 className="text-2xl font-semibold text-center">Log In</h2>
-            <form onSubmit={handleSubmit(handleSignUp)}>
+            <form onSubmit={handleSubmit(handleLogin)}>
               <div className="form-control w-full max-w-xs">
                 <label className="label">
                   {" "}
@@ -81,10 +74,10 @@ const Login = () => {
               
               <input
                 className="btn btn-secondary rounded  text-black w-full mt-6"
-                value="Sign Up"
+                value="LogIn"
                 type="submit"
               />
-              {signUpError && <p className="text-error">{signUpError}</p>}
+              {loginError && <p className="text-error">{loginError}</p>}
             </form>
             <p>
               Don't have an account? Please <Link className="text-error" to="/signup"> Sign Up</Link>

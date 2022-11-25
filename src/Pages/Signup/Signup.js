@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
-// import { AuthContext } from "../../contexts/AuthProvider";
+import { AuthContext } from '../../Context/Authprovider';
 import image from "../../Resourses/signup2.png";
 
 const Signup = () => {
@@ -11,27 +11,27 @@ const Signup = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  //   const { createUser, updateUser } = useContext(AuthContext);
+    const {  signUpUser } = useContext(AuthContext);
   const [signUpError, setSignUPError] = useState("");
   const handleSignUp = (data) => {
     console.log(data);
     setSignUPError("");
-    // createUser(data.email, data.password)
-    //   .then((result) => {
-    //     const user = result.user;
-    //     console.log(user);
-    //     toast("User Created Successfully.");
-    //     const userInfo = {
-    //       displayName: data.name,
-    //     };
-    //     updateUser(userInfo)
-    //       .then(() => {})
-    //       .catch((err) => console.log(err));
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     setSignUPError(error.message);
-    //   });
+    signUpUser(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        // toast("User Created Successfully.");
+        const userInfo = {
+          displayName: data.name,
+        };
+        // updateUser(userInfo)
+        //   .then(() => {})
+        //   .catch((err) => console.log(err));
+      })
+      .catch((error) => {
+        console.log(error);
+        setSignUPError(error.message);
+      });
   };
   return (
     <div className="hero w-full bg-gradient-to-r from-slate-300 via-stone-300 to-blue-400">

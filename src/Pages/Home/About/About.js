@@ -4,8 +4,8 @@ const About = () => {
         <section className="text-gray-900">
 	<div className="container max-w-xl p-6 py-12 mx-auto space-y-24 lg:px-8 lg:max-w-7xl">
 		<div>
-			<h2 className="text-3xl font-bold tracking-tight text-center sm:text-5xl ">What is Bike Paradise</h2>
-			<p className="max-w-3xl mx-auto mt-4 text-xl text-center">Bike Paradise is a search engine that locates motorcycle listings <br /> posted on the web, and makes them all available to you through a simple and fast discovery experience. </p>
+			<h2 className="text-lg lg:text-3xl font-bold tracking-tight text-center sm:text-5xl ">What is Bike Paradise</h2>
+			<p className="max-w-3xl mx-auto mt-4 text-base md:text-xl text-center">Bike Paradise is a search engine that locates motorcycle listings <br /> posted on the web, and makes them all available to you through a simple and fast discovery experience. </p>
 		</div>
 		<div className="grid lg:gap-8 lg:grid-cols-2 lg:items-center">
 			<div>
