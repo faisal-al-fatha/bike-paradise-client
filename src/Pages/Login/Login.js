@@ -1,6 +1,7 @@
 import { GoogleAuthProvider } from "firebase/auth";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from 'react-hot-toast';
 import { FaGoogle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/Authprovider";
@@ -25,6 +26,7 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
+        getJwtToken(data.email)
         navigate(from, {replace: true})
       })
       .catch((error) => {
@@ -33,15 +35,46 @@ const Login = () => {
       });
   };
 
+  const saveUserInDb = (name, email, role) =>{
+    const user = {name, email, role};
+    fetch(`http://localhost:5000/users?email=${email}`, {
+        method: 'post',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body:JSON.stringify(user)
+    })
+    .then(res => res.json())
+    .then(data =>{
+        console.log('DB user',data);
+        getJwtToken(email)
+    })
+
+  }
+
+  
+  const getJwtToken = email =>{
+    fetch(`http://localhost:5000/jwt?email=${email}`)
+    .then(res => res.json())
+    .then(data => {
+        if(data.accessToken){
+        localStorage.setItem('jwtToken', data.accessToken);
+            navigate('/');
+        }
+    })
+  }
+
   const handleGoogleSignIn = () =>{
     providerLogin(googleProvider)
     .then(result =>{
         const user = result.user;
-        console.log(user);
-        navigate(from, {replace: true})
+        const role = 'Buyer';
+        console.log(user.displayName, user.email, role);
+        saveUserInDb(user.displayName, user.email, role);
+        toast.success('User Created Successfully.');
     })
     .catch(error=> console.error(error))
-    };
+        }
   return (
     <div className="hero w-full min-h-screen bg-gradient-to-r from-slate-300 via-stone-300 to-blue-400">
       <div className="hero-content grid gap-20 md:grid-cols-2 flex-col lg:flex-row">

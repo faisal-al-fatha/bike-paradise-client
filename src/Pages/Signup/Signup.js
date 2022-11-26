@@ -3,9 +3,9 @@ import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from 'react-hot-toast';
 import { FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/Authprovider";
-import image from "../../Resourses/signup2.png";
+import image from "../../Resourses/SignUp-removebg 4.png";
 
 const Signup = () => {
   const {
@@ -16,20 +16,23 @@ const Signup = () => {
     const {  signUpUser, updateUser, providerLogin } = useContext(AuthContext);
     const googleProvider = new GoogleAuthProvider();
   const [signUpError, setSignUPError] = useState("");
+  const navigate = useNavigate();
   
   const handleSignUp = (data) => {
     console.log(data);
     setSignUPError("");
     signUpUser(data.email, data.password)
-      .then((result) => {
+    .then(result => {
         const user = result.user;
         console.log(user);
-        toast.success("User Created Successfully.");
+        toast.success('User Created Successfully.')
         const userInfo = {
-          displayName: data.name,
-        };
+            displayName: data.name
+        }
         updateUser(userInfo)
-          .then(() => {})
+            .then(() => {
+            saveUserInDb(data.name, data.email, data.role)
+          })
           .catch((err) => console.error(err));
       })
       .catch((error) => {
@@ -38,11 +41,40 @@ const Signup = () => {
       });
   };
 
+  const saveUserInDb = (name, email, role) =>{
+    const user = {name, email, role};
+    fetch(`http://localhost:5000/users?email=${email}`, {
+        method: 'post',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body:JSON.stringify(user)
+    })
+    .then(res => res.json())
+    .then(data =>{
+        getJwtToken(email)
+    })
+  }
+
+  const getJwtToken = email =>{
+    fetch(`http://localhost:5000/jwt?email=${email}`)
+    .then(res => res.json())
+    .then(data => {
+        if(data.accessToken){
+        localStorage.setItem('jwtToken', data.accessToken);
+            navigate('/');
+        }
+    })
+  }
+
   const handleGoogleSignIn = () =>{
     providerLogin(googleProvider)
     .then(result =>{
         const user = result.user;
-        console.log(user);
+        const role = 'Buyer';
+        console.log(user.displayName, user.email, role);
+        saveUserInDb(user.displayName, user.email, role);
+        toast.success('User Created Successfully.');
     })
     .catch(error=> console.error(error))
         }
