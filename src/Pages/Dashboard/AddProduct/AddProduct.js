@@ -13,12 +13,12 @@ const AddProduct = () => {
         formState: { errors },
       } = useForm();
     const handleAddProduct= (data) => {
-    console.log(data.name, data.price, data.location, data.photoUrl, user.displayName, user.email, data.contactNo, data.purchaseYear, data.condition, data.category, data.description, uploadTime);
-    saveProductInDb(data.name, data.price, data.location, data.photoUrl,  user.displayName, user.email, data.contactNo, data.purchaseYear, data.condition, data.category, data.description, uploadTime)
+    console.log(data.name, data.price, data.buyPrice, data.location, data.photoUrl, user.displayName, user.email, data.contactNo, data.purchaseYear, data.condition, data.category, data.description, uploadTime);
+    saveProductInDb(data.name, data.price, data.buyPrice, data.location, data.photoUrl,  user.displayName, user.email, data.contactNo, data.purchaseYear, data.condition, data.category, data.description, uploadTime)
     }
 
-    const saveProductInDb = (name, price, location, photoUrl, sellerName, sellerEmail, contactNo, purchaseYear, condition, category, description, time  ) =>{
-       const product = {name, price, location, photoUrl, sellerName, sellerEmail, contactNo, purchaseYear, condition, category, description, time }
+    const saveProductInDb = (name, price, buyPrice, location, photoUrl, sellerName, sellerEmail, contactNo, purchaseYear, condition, category, description, time  ) =>{
+       const product = {name, price, buyPrice,  location, photoUrl, sellerName, sellerEmail, contactNo, purchaseYear, condition, category, description, time }
         fetch(`http://localhost:5000/products`, {
             method: 'post',
             headers: {
@@ -63,6 +63,19 @@ const AddProduct = () => {
                 <input
                   type="text"
                   {...register("price", {
+                    required: true,
+                  })}
+                  className="input input-bordered rounded  w-full max-w-xs"
+                />
+              </div>
+              <div className="form-control w-full max-w-xs">
+                <label className="label">
+                  {" "}
+                  <span className="label-text text-black text-base">Buy Price</span>
+                </label>
+                <input
+                  type="text"
+                  {...register("buyPrice", {
                     required: true,
                   })}
                   className="input input-bordered rounded  w-full max-w-xs"
