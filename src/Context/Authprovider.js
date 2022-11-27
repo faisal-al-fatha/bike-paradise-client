@@ -51,7 +51,9 @@ useEffect(()=>{
     user,
     updateUser,
     loading,
-    logOut
+    logOut, 
+    user,
+    setUser
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

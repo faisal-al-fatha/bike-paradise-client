@@ -13,7 +13,7 @@ const Signup = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-    const {  signUpUser, updateUser, providerLogin } = useContext(AuthContext);
+    const { signUpUser, updateUser, providerLogin } = useContext(AuthContext);
     const googleProvider = new GoogleAuthProvider();
   const [signUpError, setSignUPError] = useState("");
   const navigate = useNavigate();

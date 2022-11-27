@@ -7,6 +7,7 @@ import AllSellers from "../Pages/Dashboard/AllUsers/AllSellers";
 import Dashboard from "../Pages/Dashboard/Dashboard/Dashboard";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import About from "../Pages/Home/About/About";
+import Categories from "../Pages/Home/Categories/Categories";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
 import Signup from "../Pages/Signup/Signup";
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         element: <About></About>,
+      },
+      {
+        path: "/category",
+        element: <Categories></Categories>,
       },
     ],
   },

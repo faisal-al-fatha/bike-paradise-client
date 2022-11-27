@@ -1,15 +1,36 @@
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../../../Context/Authprovider";
 import image from '../../../Resourses/signup2.png';
 
 const AddProduct = () => {
+    const { user } = useContext(AuthContext);
+    const time = new Date();
+    const uploadTime = time.toLocaleString();
     const {
         register,
         handleSubmit,
         formState: { errors },
       } = useForm();
-    const handleAddProduct= () => {
-    
+    const handleAddProduct= (data) => {
+    console.log(data.name, data.price, data.location, data.photoUrl, user.displayName, user.email, data.contactNo, data.purchaseYear, data.condition, data.category, data.description, uploadTime);
+    saveProductInDb(data.name, data.price, data.location, data.photoUrl,  user.displayName, user.email, data.contactNo, data.purchaseYear, data.condition, data.category, data.description, uploadTime)
     }
+
+    const saveProductInDb = (name, price, location, photoUrl, sellerName, sellerEmail, contactNo, purchaseYear, condition, category, description, time  ) =>{
+       const product = {name, price, location, photoUrl, sellerName, sellerEmail, contactNo, purchaseYear, condition, category, description, time }
+        fetch(`http://localhost:5000/products`, {
+            method: 'post',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body:JSON.stringify(product)
+        })
+        .then(res => res.json())
+        .then(data =>{
+           
+        })
+      }
 
     return (
         <div className="hero w-full ">
@@ -50,6 +71,19 @@ const AddProduct = () => {
               <div className="form-control w-full max-w-xs">
                 <label className="label">
                   {" "}
+                  <span className="label-text text-black text-base">Product's Picture / Photo URL</span>
+                </label>
+                <input
+                  type="text"
+                  {...register("photoUrl", {
+                    required: true,
+                  })}
+                  className="input input-bordered rounded  w-full max-w-xs"
+                />
+              </div>
+              <div className="form-control w-full max-w-xs">
+                <label className="label">
+                  {" "}
                   <span className="label-text text-black text-base">Location</span>
                 </label>
                 <input
@@ -66,7 +100,7 @@ const AddProduct = () => {
                   <span className="label-text text-black text-base">Contact number</span>
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   {...register("contactNo", {
                     required: true,
                   })}
@@ -79,7 +113,7 @@ const AddProduct = () => {
                   <span className="label-text text-black text-base">Year of Purchase</span>
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   {...register("purchaseYear", {
                     required: true,
                   })}
@@ -113,15 +147,26 @@ const AddProduct = () => {
                   placeholder="Please select bike category" className="select select-bordered rounded w-full max-w-xs">
               <option disabled>Please select bike category</option>
                 <option>Sports</option>
-                <option>Scooter</option>
                 <option>Cruiser</option>
                 <option>Commuter</option>
-                <option>Dirt</option>
-</select>
+                </select>
+              </div>
+              <div className="form-control w-full max-w-xs">
+                <label className="label">
+                  {" "}
+                  <span className="label-text text-black text-base">Product Description</span>
+                </label>
+                <textarea
+                  type="text"
+                  {...register("description", {
+                    required: true,
+                  })}
+                  className="textarea input-bordered rounded  w-full max-w-xs"
+                />
               </div>
               <input
                 className="btn btn-secondary rounded  text-black w-full mt-6"
-                value="Sign Up"
+                value="Add Product"
                 type="submit"
               />
               
