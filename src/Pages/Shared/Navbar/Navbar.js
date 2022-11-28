@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../Context/Authprovider";
 import logo from '../../../Resourses/icon.png';
@@ -90,6 +91,23 @@ const Navbar = () => {
               >
                 Log Out
               </button>
+            </li>
+            <li>
+              <p>
+                {user?.photoURL ? (
+                  <div className="tooltip" data-tip={user.displayName}>
+                    <img
+                      className="rounded-full h-8 w-8"
+                      src={user.photoURL}
+                      alt=""
+                    />
+                  </div>
+                ) : (
+                  <FaUser
+                    title={user?.displayName ? user.displayName : "user"}
+                  ></FaUser>
+                )}
+              </p>
             </li>
              </>
              :
