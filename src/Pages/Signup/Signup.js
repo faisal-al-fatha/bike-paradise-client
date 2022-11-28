@@ -13,7 +13,7 @@ const Signup = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-    const {  signUpUser, updateUser, providerLogin } = useContext(AuthContext);
+    const {  setUserRole, signUpUser, updateUser, providerLogin } = useContext(AuthContext);
     const googleProvider = new GoogleAuthProvider();
   const [signUpError, setSignUPError] = useState("");
   const navigate = useNavigate();
@@ -52,8 +52,18 @@ const Signup = () => {
     })
     .then(res => res.json())
     .then(data =>{
-        getJwtToken(email)
+        getJwtToken(email);
+        verifyUserRole(email);
     })
+  }
+
+  const verifyUserRole = email =>{
+    fetch(`http://localhost:5000/users/role/${email}`)
+            .then(res => res.json())
+            .then(data=>{
+                console.log(data.role);
+                setUserRole(data.role)
+            })
   }
 
   const getJwtToken = email =>{

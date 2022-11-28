@@ -1,8 +1,12 @@
+import { useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
+import { AuthContext } from '../Context/Authprovider';
 import Footer from '../Pages/Shared/Footer/Footer';
 import Navbar from '../Pages/Shared/Navbar/Navbar';
 
 const DashboardLayout = () => {
+    const {userRole} = useContext(AuthContext);
+    console.log(userRole?.role);
     return (
         <div>
             <Navbar></Navbar>
@@ -17,10 +21,25 @@ const DashboardLayout = () => {
     <label htmlFor="dashboard-drawer" className="drawer-overlay"></label> 
     <ul className="menu p-4 w-52 bg-base-100 text-base-content">
       {/* <!-- Sidebar content here --> */}
-      <li><Link to= '/dashboard/addproduct'>Add a product</Link></li>
-      <li><Link to= '/dashboard/bookings'>My Bookings</Link></li>
-      <li><Link to= '/dashboard/buyers'>Buyers</Link></li>
+      {
+        userRole?.role === 'Admin' && <>
+         <li><Link to= '/dashboard/buyers'>Buyers</Link></li>
       <li><Link to= '/dashboard/sellers'>Sellers</Link></li>
+        </>
+      }
+      {
+        userRole?.role === 'Seller' && <>
+         <li><Link to= '/dashboard/bookings'>My Bookings</Link></li>
+        </>
+      }
+      {
+        userRole?.role === 'Buyer' && <>
+         <li><Link to= '/dashboard/addproduct'>Add a product</Link></li>
+        </>
+      }
+      
+     
+     
     </ul>
   
   </div>

@@ -15,18 +15,19 @@ const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || '/';
-  const { logIn, providerLogin } = useContext(AuthContext);
+  const {  setUserRole, logIn, providerLogin } = useContext(AuthContext);
   const googleProvider = new GoogleAuthProvider();
   const [loginError, setLoginError] = useState("");
 
   const handleLogin = (data) => {
-    console.log(data);
+    // console.log(data);
     setLoginError("");
     logIn(data.email, data.password)
       .then((result) => {
-        const user = result.user;
-        console.log(user);
-        getJwtToken(data.email)
+        // const user = result.user;
+        // console.log(user);
+        getJwtToken(data.email);
+        verifyUserRole(data.email);
         navigate(from, {replace: true})
       })
       .catch((error) => {
@@ -47,7 +48,8 @@ const Login = () => {
     .then(res => res.json())
     .then(data =>{
         console.log('DB user',data);
-        getJwtToken(email)
+        getJwtToken(email);
+        verifyUserRole(email);
     })
 
   }
@@ -62,6 +64,15 @@ const Login = () => {
             navigate('/');
         }
     })
+  }
+
+  const verifyUserRole = email =>{
+    fetch(`http://localhost:5000/users/role/${email}`)
+            .then(res => res.json())
+            .then(data=>{
+                console.log(data.role);
+                setUserRole(data)
+            })
   }
 
   const handleGoogleSignIn = () =>{

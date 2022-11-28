@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
+import toast from 'react-hot-toast';
 
 const AllSellers = () => {
-    const {data: sellers = []} =useQuery({
+    const {data: sellers = [], refetch} =useQuery({
         queryKey: ['Seller'],
         queryFn: async() =>{
             const res = await fetch('http://localhost:5000/sellers');
@@ -9,6 +10,25 @@ const AllSellers = () => {
             return data
         }
     })
+
+const handleVerifySeller = id => {
+    fetch(`http://localhost:5000/sellers/verify/${id}`,{
+        method: 'PUT',
+        headers: {
+            authorization: `bearer ${localStorage.getItem('jwtToken')}`
+        }
+    })
+    .then(res => res.json())
+    .then(data =>{
+        console.log(data);
+        if(data.modifiedCount > 0){
+            toast.success('Seller Verification Successful')
+            refetch();
+        }
+    })
+
+}
+
     return (
         <div>
            <div className="text-center">
@@ -20,9 +40,6 @@ const AllSellers = () => {
     <thead>
       <tr>
         <th>
-          <label>
-            <input type="checkbox" className="checkbox" />
-          </label>
         </th>
         <th>Name</th>
         <th>Email Address</th>
@@ -35,9 +52,7 @@ const AllSellers = () => {
      {
         sellers?.map((seller, i) =>  <tr key={seller._id}>
         <th>
-          <label>
-            <input type="checkbox" className="checkbox" />
-          </label>
+            {i + 1 }
         </th>
         <td>
           <div className="flex items-center space-x-3">
@@ -49,7 +64,7 @@ const AllSellers = () => {
         <td>
           {seller.email}
         </td>
-        <td><button className="btn btn-accent btn-sm px-5 rounded">Verify</button></td>
+        <td>{seller?.status ?<span className="ml-2 font-semibold"> Verified</span> : <button onClick={()=> handleVerifySeller(seller._id)} className="btn btn-accent btn-sm px-5 rounded">Verify</button>}</td>
         <th>
         <button className="btn btn-secondary btn-sm px-5  rounded">Delete</button>
         </th>

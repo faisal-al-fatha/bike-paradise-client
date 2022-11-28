@@ -64,12 +64,12 @@ const Navbar = () => {
             <ul className=" tems-center hidden space-x-8 lg:flex">
               <li>
                 <Link
-                  to="/about"
-                  aria-label="About us"
-                  title="About us"
+                  to="/blogs"
+                  aria-label=""
+                  title=""
                   className="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
                 >
-                  About us
+                  Blogs
                 </Link>
               </li>
              {user?.uid ? 
