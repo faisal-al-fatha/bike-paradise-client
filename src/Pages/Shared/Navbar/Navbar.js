@@ -95,13 +95,13 @@ const Navbar = () => {
             <li>
               <p>
                 {user?.photoURL ? (
-                  <div className="tooltip" data-tip={user.displayName}>
+                  <span className="tooltip" data-tip={user.displayName}>
                     <img
                       className="rounded-full h-8 w-8"
-                      src={user.photoURL}
+                      src={user?.photoURL}
                       alt=""
                     />
-                  </div>
+                  </span>
                 ) : (
                   <FaUser
                     title={user?.displayName ? user.displayName : "user"}
