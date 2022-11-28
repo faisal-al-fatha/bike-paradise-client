@@ -52,17 +52,18 @@ const Signup = () => {
     })
     .then(res => res.json())
     .then(data =>{
-        getJwtToken(email);
-        verifyUserRole(email);
+         getJwtToken(email);
+       
     })
   }
 
-  const verifyUserRole = email =>{
+  const verifyUserRole = (email) =>{
     fetch(`http://localhost:5000/users/role/${email}`)
             .then(res => res.json())
             .then(data=>{
                 console.log(data.role);
-                setUserRole(data.role)
+                setUserRole(data.role);
+                navigate('/');
             })
   }
 
@@ -72,7 +73,8 @@ const Signup = () => {
     .then(data => {
         if(data.accessToken){
         localStorage.setItem('jwtToken', data.accessToken);
-            navigate('/');
+        verifyUserRole(email);
+            
         }
     })
   }

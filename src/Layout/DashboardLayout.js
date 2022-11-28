@@ -28,12 +28,12 @@ const DashboardLayout = () => {
         </>
       }
       {
-        userRole?.role === 'Seller' && <>
+        userRole?.role === 'Buyer' && <>
          <li><Link to= '/dashboard/bookings'>My Bookings</Link></li>
         </>
       }
       {
-        userRole?.role === 'Buyer' && <>
+        userRole?.role === 'Seller' && <>
          <li><Link to= '/dashboard/addproduct'>Add a product</Link></li>
         </>
       }
