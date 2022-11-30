@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { FaGoogle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/Authprovider";
+import useVerifyRole from "../../hooks/useVerifyRole";
 import image from "../../Resourses/SignUp-removebg-preview.png";
 const Login = () => {
   const {
@@ -13,11 +14,17 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const location = useLocation();
+  const [loggedUserEmail, setLoggedUserEmail]= useState()
+  const [role] = useVerifyRole(loggedUserEmail);
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || '/';
   const {  setUserRole, logIn, providerLogin } = useContext(AuthContext);
   const googleProvider = new GoogleAuthProvider();
   const [loginError, setLoginError] = useState("");
+
+  if(role){
+    navigate('/')
+  }
 
   const handleLogin = (data) => {
     // console.log(data);
@@ -27,8 +34,7 @@ const Login = () => {
         // const user = result.user;
         // console.log(user);
         getJwtToken(data.email);
-        verifyUserRole(data.email);
-        navigate(from, {replace: true})
+        
       })
       .catch((error) => {
         console.error(error);
@@ -47,9 +53,8 @@ const Login = () => {
     })
     .then(res => res.json())
     .then(data =>{
-        console.log('DB user',data);
         getJwtToken(email);
-        verifyUserRole(email);
+       
     })
 
   }
@@ -61,19 +66,22 @@ const Login = () => {
     .then(data => {
         if(data.accessToken){
         localStorage.setItem('jwtToken', data.accessToken);
-            navigate('/');
+        setLoggedUserEmail(email)
+        navigate(from, {replace: true})
+        // verifyUserRole(email);
         }
     })
   }
 
-  const verifyUserRole = email =>{
-    fetch(`http://localhost:5000/users/role/${email}`)
-            .then(res => res.json())
-            .then(data=>{
-                console.log(data.role);
-                setUserRole(data)
-            })
-  }
+  // const verifyUserRole = email =>{
+  //   fetch(`http://localhost:5000/users/role/${email}`)
+  //           .then(res => res.json())
+  //           .then(data=>{
+  //               console.log(data.role);
+  //               setUserRole(data)
+  //               navigate('/');
+  //           })
+  // }
 
   const handleGoogleSignIn = () =>{
     providerLogin(googleProvider)
