@@ -35,6 +35,7 @@ const DashboardLayout = () => {
       {
         userRole?.role === 'Seller' && <>
          <li><Link to= '/dashboard/addproduct'>Add a product</Link></li>
+         <li><Link to= '/dashboard/myproduct'>My products</Link></li>
         </>
       }
       

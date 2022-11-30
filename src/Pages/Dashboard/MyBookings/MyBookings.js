@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from 'react';
+import toast from "react-hot-toast";
 import { AuthContext } from '../../../Context/Authprovider';
 
 const MyBookings = () => {
     const user = useContext(AuthContext);
-    const {data: bookings = []}= useQuery({
+    const {data: bookings = [], refetch}= useQuery({
         queryKey: ['bookings', user?.email],
         queryFn: async() => {
             const res = await fetch(`http://localhost:5000/bookings?email=${user.user.email}`,{
@@ -17,6 +18,24 @@ const MyBookings = () => {
         }
 
     })
+
+    const handleDeleteBooking = (id) => {
+        const agree = window.confirm("Are you sure you want to delete the booking?");
+        if (agree) {
+          fetch(`http://localhost:5000/bookings/delete/${id}`, {
+            method: "DELETE",
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data);
+              if (data.deletedCount > 0) {
+                toast.error("Booking Deleted Successfully");
+                refetch();
+              }
+            });
+        }
+      };
+
     return (
         <div>
             <div className='text-center'>
@@ -31,6 +50,7 @@ const MyBookings = () => {
         <th>Name</th>
         <th>Price</th>
         <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -41,7 +61,9 @@ const MyBookings = () => {
             <th>{i + 1}</th>
             <td>{booking.productName}</td>
             <td>${booking.price}</td>
-            <td><button className='btn-secondary px-4 py-1 rounded'>Buy Now</button></td>
+            <td><button className='btn-accent px-4 py-1 rounded'>Buy Now</button></td>
+            <td><button 
+             onClick={() => handleDeleteBooking(booking._id)}className='btn-secondary px-4 py-1 rounded'>Delete Booking</button></td>
           </tr>
         )
      }

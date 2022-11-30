@@ -1,11 +1,14 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../Context/Authprovider";
 import image from '../../../Resourses/signup2.png';
 
 const AddProduct = () => {
     const { user } = useContext(AuthContext);
     const time = new Date();
+    const navigate = useNavigate();
     const uploadTime = time.toLocaleString();
     const {
         register,
@@ -28,7 +31,9 @@ const AddProduct = () => {
         })
         .then(res => res.json())
         .then(data =>{
-           
+          toast.success("Product added Successfully");
+          navigate('/dashboard/myproduct')
+
         })
       }
 

@@ -53,7 +53,6 @@ useEffect(()=>{
     updateUser,
     loading,
     logOut, 
-    user,
     setUser,
     userRole,
     setUserRole
