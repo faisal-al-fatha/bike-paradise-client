@@ -18,6 +18,22 @@ const MyBookings = () => {
         }
 
     })
+    const handleBuyNow = (id) => {
+        fetch(`https://bike-paradise-server.vercel.app/bookings/buy/${id}`, {
+          method: "PUT",
+          headers: {
+            authorization: `bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (data.modifiedCount > 0) {
+              toast.success("Buy Successful");
+              refetch();
+            }
+          });
+      };
 
     const handleDeleteBooking = (id) => {
         const agree = window.confirm("Are you sure you want to delete the booking?");
@@ -49,6 +65,7 @@ const MyBookings = () => {
         <th></th>
         <th>Name</th>
         <th>Price</th>
+        <th>Booking Status</th>
         <th></th>
         <th></th>
       </tr>
@@ -61,7 +78,8 @@ const MyBookings = () => {
             <th>{i + 1}</th>
             <td>{booking.productName}</td>
             <td>${booking.price}</td>
-            <td><button className='btn-accent px-4 py-1 rounded'>Buy Now</button></td>
+            <td>{booking?.status}</td>
+            <td><button onClick={()=> handleBuyNow} className='btn-accent px-4 py-1 rounded'>Buy Now</button></td>
             <td><button 
              onClick={() => handleDeleteBooking(booking._id)}className='btn-secondary px-4 py-1 rounded'>Delete Booking</button></td>
           </tr>
