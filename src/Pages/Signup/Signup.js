@@ -43,7 +43,7 @@ const Signup = () => {
 
   const saveUserInDb = (name, email, role) =>{
     const user = {name, email, role};
-    fetch(`https://bike-paradise-server.vercel.app/users?email=${email}`, {
+    fetch(`https://bike-paradise-server-faisal-al-fatha.vercel.app/users?email=${email}`, {
         method: 'post',
         headers: {
             'content-type': 'application/json'
@@ -58,7 +58,7 @@ const Signup = () => {
   }
 
   const verifyUserRole = (email) =>{
-    fetch(`https://bike-paradise-server.vercel.app/users/role/${email}`)
+    fetch(`https://bike-paradise-server-faisal-al-fatha.vercel.app/users/role/${email}`)
             .then(res => res.json())
             .then(data=>{
                 console.log(data.role);
@@ -68,7 +68,7 @@ const Signup = () => {
   }
 
   const getJwtToken = email =>{
-    fetch(`https://bike-paradise-server.vercel.app/jwt?email=${email}`)
+    fetch(`https://bike-paradise-server-faisal-al-fatha.vercel.app/jwt?email=${email}`)
     .then(res => res.json())
     .then(data => {
         if(data.accessToken){

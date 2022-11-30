@@ -5,7 +5,7 @@ const AllBuyers = () => {
     const { data: buyers = [], refetch } = useQuery({
         queryKey: ["Buyer"],
         queryFn: async () => {
-          const res = await fetch("https://bike-paradise-server.vercel.app/buyers");
+          const res = await fetch("https://bike-paradise-server-faisal-al-fatha.vercel.app/buyers");
           const data = await res.json();
           return data;
         },
@@ -14,7 +14,7 @@ const AllBuyers = () => {
       const handleDeleteBuyer = (id) => {
         const agree = window.confirm("Are you sure you want to delete the buyer?");
         if (agree) {
-          fetch(`https://bike-paradise-server.vercel.app/users/delete/${id}`, {
+          fetch(`https://bike-paradise-server-faisal-al-fatha.vercel.app/users/delete/${id}`, {
             method: "DELETE",
           })
             .then((res) => res.json())

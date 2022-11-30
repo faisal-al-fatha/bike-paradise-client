@@ -49,7 +49,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/category/:categoryId',
-        loader: async ({ params }) => fetch(`https://bike-paradise-server.vercel.app/category/${params.categoryId}`),
+        loader: async ({ params }) => fetch(`https://bike-paradise-server-faisal-al-fatha.vercel.app/category/${params.categoryId}`),
         element: <PrivateRoute><CategoryProducts></CategoryProducts></PrivateRoute>
       }
     ],

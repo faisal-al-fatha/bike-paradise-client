@@ -5,7 +5,7 @@ const AllSellers = () => {
   const { data: sellers = [], refetch } = useQuery({
     queryKey: ["Seller"],
     queryFn: async () => {
-      const res = await fetch("https://bike-paradise-server.vercel.app/sellers");
+      const res = await fetch("https://bike-paradise-server-faisal-al-fatha.vercel.app/sellers");
       const data = await res.json();
       return data;
     },
@@ -14,7 +14,7 @@ const AllSellers = () => {
   const handleDeleteSeller = (id) => {
     const agree = window.confirm("Are you sure you want to delete the seller?");
     if (agree) {
-      fetch(`https://bike-paradise-server.vercel.app/users/delete/${id}`, {
+      fetch(`https://bike-paradise-server-faisal-al-fatha.vercel.app/users/delete/${id}`, {
         method: "DELETE",
       })
         .then((res) => res.json())
@@ -29,7 +29,7 @@ const AllSellers = () => {
   };
 
   const handleVerifySeller = (id) => {
-    fetch(`https://bike-paradise-server.vercel.app/sellers/verify/${id}`, {
+    fetch(`https://bike-paradise-server-faisal-al-fatha.vercel.app/sellers/verify/${id}`, {
       method: "PUT",
       headers: {
         authorization: `bearer ${localStorage.getItem("jwtToken")}`,

@@ -22,7 +22,7 @@ const AddProduct = () => {
 
     const saveProductInDb = (name, price, buyPrice, location, photoUrl, sellerName, sellerEmail, contactNo, purchaseYear, condition, category, description, time  ) =>{
        const product = {name, price, buyPrice,  location, photoUrl, sellerName, sellerEmail, contactNo, purchaseYear, condition, category, description, time }
-        fetch(`https://bike-paradise-server.vercel.app/products`, {
+        fetch(`https://bike-paradise-server-faisal-al-fatha.vercel.app/products`, {
             method: 'post',
             headers: {
                 'content-type': 'application/json'

@@ -6,7 +6,7 @@ const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetch("https://bike-paradise-server.vercel.app/categories")
+    fetch("https://bike-paradise-server-faisal-al-fatha.vercel.app/categories")
       .then((res) => res.json())
       .then((data) => {
         setCategories(data);
