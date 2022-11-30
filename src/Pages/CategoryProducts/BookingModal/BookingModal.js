@@ -21,7 +21,7 @@ const navigate = useNavigate();
     
         const saveBookingInDb = (name, email, productName, price,  location, sellerEmail, contactNo, productId   ) =>{
            const booking = {name, email, productName, price,  location, sellerEmail, contactNo, productId  }
-            fetch(`http://localhost:5000/bookings?email=${email}`, {
+            fetch(`https://bike-paradise-server.vercel.app/bookings?email=${email}`, {
                 method: 'post',
                 headers: {
                     'content-type': 'application/json'

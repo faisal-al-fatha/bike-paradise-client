@@ -49,7 +49,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/category/:categoryId',
-        loader: async ({ params }) => fetch(`http://localhost:5000/category/${params.categoryId}`),
+        loader: async ({ params }) => fetch(`https://bike-paradise-server.vercel.app/category/${params.categoryId}`),
         element: <PrivateRoute><CategoryProducts></CategoryProducts></PrivateRoute>
       }
     ],

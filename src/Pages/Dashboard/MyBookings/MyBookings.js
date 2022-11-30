@@ -8,7 +8,7 @@ const MyBookings = () => {
     const {data: bookings = [], refetch}= useQuery({
         queryKey: ['bookings', user?.email],
         queryFn: async() => {
-            const res = await fetch(`http://localhost:5000/bookings?email=${user.user.email}`,{
+            const res = await fetch(`https://bike-paradise-server.vercel.app/bookings?email=${user.user.email}`,{
                 headers: {
                     authorization: `bearer ${localStorage.getItem('jwtToken')}`
                 }
@@ -22,7 +22,7 @@ const MyBookings = () => {
     const handleDeleteBooking = (id) => {
         const agree = window.confirm("Are you sure you want to delete the booking?");
         if (agree) {
-          fetch(`http://localhost:5000/bookings/delete/${id}`, {
+          fetch(`https://bike-paradise-server.vercel.app/bookings/delete/${id}`, {
             method: "DELETE",
           })
             .then((res) => res.json())

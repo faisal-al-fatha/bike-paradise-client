@@ -8,7 +8,7 @@ const useVerifyRole = email =>{
     const [verifyLoading, setVerifyLoading] = useState(true)
    useEffect(()=>{
     if(email){
-        fetch(`http://localhost:5000/users/role/${email}`)
+        fetch(`https://bike-paradise-server.vercel.app/users/role/${email}`)
     .then(res => res.json())
     .then(data=>{
         console.log(data.role);
